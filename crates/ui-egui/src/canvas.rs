@@ -3167,7 +3167,7 @@ fn open_on_double_click(app: &mut PhotocraftApp, ui: &egui::Ui, area: Rect) {
 }
 
 /// The Home screen's card is this wide when the canvas has room, and as wide as the canvas when it doesn't.
-const HOME_CARD_WIDTH: f32 = 460.0;
+const HOME_CARD_WIDTH: f32 = 640.0;
 /// Least width of each of the Home screen's New document and Open buttons.
 const HOME_BUTTON_WIDTH: f32 = 190.0;
 /// Space between the Home screen's two buttons.
@@ -3192,19 +3192,10 @@ fn start_screen(app: &mut PhotocraftApp, ui: &mut egui::Ui) {
     let side_by_side = 2.0 * button_width + HOME_BUTTON_GAP <= card_width;
     // Stacked buttons take one more row.
     let stacked_h = if side_by_side { 0.0 } else { 44.0 };
-    let card = Rect::from_center_size(area.center(), egui::vec2(card_width, 330.0 + recent_h + stacked_h));
+    let card = Rect::from_center_size(area.center(), egui::vec2(card_width, 250.0 + recent_h + stacked_h));
     ui.scope_builder(egui::UiBuilder::new().max_rect(card), |ui| {
         ui.vertical_centered(|ui| {
-            ui.horizontal(|ui| {
-                let title = ui.painter().layout_no_wrap(tl!("PhotoCraft").into(), crate::theme::semibold(38.0), t.text);
-                let by = ui.painter().layout_no_wrap(tl!("open source").into(), egui::FontId::proportional(13.0), t.text_faint);
-                let total = title.size().x + by.size().x + 10.0;
-                ui.add_space(((card.width() - total) / 2.0).max(0.0));
-                let (r, _) = ui.allocate_exact_size(title.size(), Sense::hover());
-                ui.painter().galley(r.min, title, t.text);
-                let (r2, _) = ui.allocate_exact_size(egui::vec2(by.size().x + 10.0, r.height()), Sense::hover());
-                ui.painter().galley(egui::pos2(r2.left() + 10.0, r.bottom() - by.size().y - 8.0), by, t.text_faint);
-            });
+            ui.label(egui::RichText::new(tl!("PhotoCraft")).font(crate::theme::semibold(38.0)).color(t.text));
             ui.add_space(6.0);
             ui.label(egui::RichText::new(tl!("Create a new document or open an existing file.")).color(t.text_dim).size(14.0));
             ui.add_space(22.0);
@@ -3241,10 +3232,6 @@ fn start_screen(app: &mut PhotocraftApp, ui: &mut egui::Ui) {
                 ui.add_space(22.0);
                 home_recent(app, ui, &recent);
             }
-            ui.add_space(26.0);
-            crate::links::discord_button(app, ui, 190.0);
-            ui.add_space(10.0);
-            crate::links::link_row(app, ui);
         });
     });
 }
@@ -7959,7 +7946,7 @@ mod tests {
         assert!(hint.ends_with(&format!("paste a copied image with {}.", crate::notices::paste_hint(&wayland))), "{hint}");
     }
 
-    /// A tiling window manager can hand PhotoCraft a canvas narrower than the Home card (460
+    /// A tiling window manager can hand PhotoCraft a canvas narrower than the Home card (640
     /// points): the two buttons must stay inside the window instead of being clipped at its edges.
     #[test]
     fn start_screen_buttons_stay_inside_a_narrow_canvas() {
@@ -7977,7 +7964,7 @@ mod tests {
             PhotocraftApp::setup_context(&h.ctx, crate::theme::ThemeKind::default());
             h.state_mut().1 = true;
             h.run_steps(3);
-            for label in ["New document", "Join us on Discord"] {
+            for label in ["New document", "Open"] {
                 for node in h.query_all_by_label_contains(label) {
                     let r = node.rect();
                     assert!(r.left() >= 0.0 && r.right() <= width, "`{label}` is clipped in a {width}-point-wide canvas: {r:?}");
