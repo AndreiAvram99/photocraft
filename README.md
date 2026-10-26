@@ -1,3 +1,5 @@
+> **Andrei Avram's modified PhotoCraft fork.** The Remora releases use custom branding and build from this repository. Windows packages are currently unsigned. Read the [code signing policy](CODE_SIGNING_POLICY.md) for the planned SignPath Foundation application and current verification status.
+
 <p align="center">
   <a href="https://getartcraft.com/">
     <picture>
