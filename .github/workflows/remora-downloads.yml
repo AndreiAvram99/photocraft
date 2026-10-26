@@ -8,6 +8,13 @@ on:
 permissions:
   contents: write
 
+env:
+  PYTHONUTF8: "1"
+
+concurrency:
+  group: remora-downloads-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   mac:
     name: Mac Apple Silicon
