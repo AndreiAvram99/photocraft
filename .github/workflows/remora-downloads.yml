@@ -158,5 +158,5 @@ jobs:
           tag="remora-${GITHUB_SHA:0:12}"
           gh release create "$tag" "${files[@]}" \
             --target "$GITHUB_SHA" \
-            --title "PhotRay $version (Remora build)" \
-            --notes "PhotRay built automatically from this fork's main commit $GITHUB_SHA. Mac installer is Developer ID signed and Apple notarized. Windows installer is unsigned and may show a SmartScreen warning."
+            --title "PhotoRay $version (Remora build)" \
+            --notes "PhotoRay built automatically from this fork's main commit $GITHUB_SHA. Mac installer is Developer ID signed and Apple notarized. Windows installer is unsigned and may show a SmartScreen warning."

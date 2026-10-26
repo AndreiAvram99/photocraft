@@ -10,5 +10,5 @@ if not slug.endswith('craft'):
     raise SystemExit(f'Unexpected Craft checkout name: {slug}')
 title = slug[:-5].capitalize() + 'Craft'
 subprocess.run([sys.executable, str(root / '.remora' / 'overlay.py'), title, str(root)], check=True)
-ray_title = 'PhotRay' if slug == 'photocraft' else title[:-5] + 'Ray'
+ray_title = 'PhotoRay' if slug == 'photocraft' else title[:-5] + 'Ray'
 subprocess.run([sys.executable, str(root / '.remora' / 'ray_branding.py'), title, ray_title, str(root)], check=True)
