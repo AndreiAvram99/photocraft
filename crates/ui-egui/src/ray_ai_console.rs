@@ -369,9 +369,11 @@ fn validate(action: &Action, catalog: &Value) -> Result<(), String> {
     }
     let list = catalog.as_array().or_else(|| catalog.get("commands").and_then(Value::as_array));
     let enabled = list.is_some_and(|items| {
-        items
-            .iter()
-            .any(|item| item.get("id").and_then(Value::as_str) == Some(action.command.as_str()) && item.get("enabled").and_then(Value::as_bool) != Some(false))
+        items.iter().any(|item| {
+            item.get("id").and_then(Value::as_str) == Some(action.command.as_str())
+                && item.get("enabled").and_then(Value::as_bool) != Some(false)
+                && item.get("ui").and_then(Value::as_bool) != Some(true)
+        })
     });
     if !enabled {
         return Err(format!("{} is not currently available in this document.", action.command));
