@@ -194,4 +194,4 @@ for path in (root / "crates/ui-egui/src").rglob("*.tsv"):
     if updated != original:
         path.write_text(updated, encoding="utf-8")
 
-print(f"{old_title} → {new_title}: display branding applied; bundle, registry and executable IDs unchanged")
+print(f"{old_title} -> {new_title}: display branding applied; bundle, registry and executable IDs unchanged")
