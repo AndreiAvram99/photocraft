@@ -106,6 +106,10 @@ jobs:
           }
           retry_check xcrun stapler validate "${files[0]}"
           retry_check spctl --assess --type open --context context:primary-signature -vv "${files[0]}"
+          mount_dir=$(mktemp -d)
+          trap 'hdiutil detach -quiet "$mount_dir" >/dev/null 2>&1 || true; rmdir "$mount_dir" >/dev/null 2>&1 || true' EXIT
+          retry_check hdiutil attach -quiet -readonly -nobrowse -mountpoint "$mount_dir" "${files[0]}"
+          codesign --verify --deep --strict "$mount_dir/PhotoRay.app"
       - name: Upload verified Mac installer to the draft release
         env:
           GH_TOKEN: ${{ github.token }}
