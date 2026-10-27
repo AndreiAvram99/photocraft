@@ -186,6 +186,8 @@ pub mod proxy;
 pub mod puppet_ui;
 pub mod quick_pick;
 pub mod rasterize_prompt;
+#[cfg(not(target_arch = "wasm32"))]
+mod ray_ai_console;
 pub mod replace_prompt;
 pub mod retouch_ui;
 mod rgb_histogram;
@@ -2452,6 +2454,8 @@ impl eframe::App for PhotocraftApp {
         timeline_ui::windows(self, &ctx);
         workspace_ui::windows(self, &ctx);
         palette::show(self, &ctx);
+        #[cfg(not(target_arch = "wasm32"))]
+        ray_ai_console::show(self, &ctx);
         dialogs::show(self, &ctx);
         layers_panel_ui::show_dialog(self, &ctx);
         rasterize_prompt::run_pending(self, &ctx);
