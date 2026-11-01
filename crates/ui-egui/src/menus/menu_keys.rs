@@ -364,6 +364,8 @@ impl Keys {
             && let Some(i) = mnemonics.iter().position(|m| *m == Some(c))
         {
             consume(Modifiers::ALT, key);
+            // The letter comes as text too: a focused field isn't to type it.
+            ctx.input_mut(|i| i.events.retain(|e| !matches!(e, Event::Text(_))));
             self.alt_tap = false;
             open_top(i, self);
             return;
